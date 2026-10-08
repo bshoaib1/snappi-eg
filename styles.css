@@ -1,0 +1,6 @@
+/* SNAPPI SHARED STYLES
+   Ordered modules preserve the approved cascade while keeping each surface traceable. */
+@import url("styles/foundation.css?v=1");
+@import url("styles/public.css?v=1");
+@import url("styles/modals-and-pages.css?v=1");
+@import url("styles/workspaces.css?v=1");

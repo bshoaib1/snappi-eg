@@ -1,0 +1,10 @@
+{
+  "name": "snappi-live",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static Snappi public website prepared for GitHub Pages.",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "start": "node dev-server.js"
+  }
+}

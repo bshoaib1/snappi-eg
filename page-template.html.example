@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://dmcpnwhpcybmvgutwtaf.supabase.co https://www.google-analytics.com; connect-src 'self' https://dmcpnwhpcybmvgutwtaf.supabase.co https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; form-action 'self'; upgrade-insecure-requests" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Replace with this Snappi page description." />
+    <link rel="canonical" href="https://snappi-eg.com/replace-page.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Snappi" />
+    <meta property="og:title" content="Page name | Snappi" />
+    <meta property="og:description" content="Replace with this Snappi page description." />
+    <meta property="og:url" content="https://snappi-eg.com/replace-page.html" />
+    <meta property="og:image" content="https://snappi-eg.com/assets/snappi-social-preview.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Page name | Snappi</title>
+    <link rel="icon" type="image/webp" href="assets/snappi-icon.webp" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=40" />
+    <link rel="stylesheet" href="interface-improvements.css?v=1" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <!-- SHARED HEADER: Keep navigation consistent with the live homepage. -->
+    <header class="site-header" id="top">
+      <a class="brand" href="index.html" aria-label="Snappi homepage"><img src="assets/snappi-logo.webp" alt="Snappi" width="1086" height="362" /></a>
+      <nav class="desktop-nav" aria-label="Main navigation"><a href="index.html#process">How It Works</a><a href="packages.html">Pricing</a></nav>
+      <div class="header-actions"><button class="login-link modal-text-trigger" type="button" data-modal-open="login">Log In</button><button class="button button-lime" type="button" data-modal-open="campaign">Start a Campaign</button></div>
+    </header>
+
+    <main id="main-content">
+      <!-- PAGE HERO: Replace the kicker, heading, and description. -->
+      <section class="section-pad" aria-labelledby="page-title">
+        <div class="section-heading">
+          <p class="kicker">✨ Page kicker</p>
+          <h1 id="page-title">New Snappi page.</h1>
+          <p>Replace this with a short explanation of what the visitor can do here.</p>
+        </div>
+      </section>
+
+      <!-- PAGE CONTENT: Build new page-specific sections here. -->
+
+      <!-- STANDARD CLOSING CTA: Keep this light, high contrast, and visually consistent. -->
+      <section class="standard-closing-cta section-pad" aria-labelledby="page-cta-title">
+        <p class="kicker">🚀 Ready for the next step?</p>
+        <h2 id="page-cta-title">Replace this with one clear closing statement.</h2>
+        <div class="standard-closing-actions">
+          <button class="button button-lime" type="button">Primary Action</button>
+          <a class="button button-lime" href="index.html">Secondary Action</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- SHARED FOOTER: Copy the current footer from index.html when activating this page. -->
+    <script src="site.js?v=16" defer></script>
+  </body>
+</html>

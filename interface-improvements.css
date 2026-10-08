@@ -1,0 +1,161 @@
+/* SNAPPI INTERFACE QUALITY LAYER
+   Shared accessibility, responsive, and interaction corrections verified in the
+   October 2026 cross-discipline interface review. Keep new feature styling in
+   styles.css and reserve this file for system-wide usability rules. */
+
+/* Keyboard navigation */
+.skip-link {
+  position: fixed;
+  top: .75rem;
+  left: .75rem;
+  z-index: 10000;
+  padding: .7rem 1rem;
+  border: 2px solid #000;
+  border-radius: 999px;
+  background: #d4ff3a;
+  color: #000;
+  font-weight: 850;
+  text-decoration: none;
+  transform: translateY(-180%);
+  transition: transform 180ms ease;
+}
+.skip-link:focus { transform: translateY(0); }
+:is(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid #8116e0;
+  outline-offset: 3px;
+}
+:is(.site-header, .site-footer, .snappi-modal-panel, .contact-section) :is(a, button, input, select, textarea, summary):focus-visible {
+  outline-color: #d4ff3a;
+}
+
+/* Announcement motion control */
+.announcement { padding-right: 8.8rem; }
+.announcement.is-paused .announcement-track,
+.announcement:focus-within .announcement-track,
+.announcement:hover .announcement-track { animation-play-state: paused; }
+.announcement-toggle {
+  position: absolute;
+  top: 50%;
+  right: .45rem;
+  z-index: 2;
+  min-height: 1.5rem;
+  padding: .12rem .55rem;
+  border: 1px solid #000;
+  border-radius: 999px;
+  background: #fefffc;
+  color: #000;
+  font-size: .75rem;
+  font-weight: 800;
+  line-height: 1;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* Modal actions that visually behave like contextual text links */
+.modal-text-trigger:not(.button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  cursor: pointer;
+}
+.nav-mega-menu .modal-text-trigger {
+  display: grid;
+  gap: .15rem;
+  width: 100%;
+  padding: .8rem;
+  border-radius: .9rem;
+  text-align: left;
+}
+.nav-mega-menu .modal-text-trigger:hover { background: var(--sn-minimal-soft); }
+.faq-intro .modal-text-trigger,
+.legal-notice .modal-text-trigger {
+  color: #8116e0;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.footer-column .modal-text-trigger {
+  color: rgba(255,255,255,.76);
+  font-size: .9rem;
+  text-align: left;
+}
+.footer-column .modal-text-trigger:hover { color: #d4ff3a; }
+.login-link.modal-text-trigger { color: inherit; }
+
+/* Complete tab affordance */
+[role="tab"]:focus-visible { position: relative; z-index: 3; }
+[role="tabpanel"] { min-width: 0; }
+
+/* Responsive Admin tables */
+@media (max-width: 760px) {
+  .admin-table-wrap { overflow: visible; border: 0; background: transparent; }
+  .admin-table-wrap table,
+  .admin-table-wrap tbody { display: grid; width: 100%; min-width: 0; gap: .8rem; }
+  .admin-table-wrap thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .admin-table-wrap tr { display: grid; overflow: hidden; border: 1px solid rgba(11,11,11,.14); border-radius: 1rem; background: #fefffc; }
+  .admin-table-wrap td {
+    display: grid;
+    grid-template-columns: minmax(6.5rem,.38fr) minmax(0,1fr);
+    gap: .8rem;
+    align-items: start;
+    padding: .8rem 1rem;
+    border-top: 1px solid #e2e2de;
+    overflow-wrap: anywhere;
+  }
+  .admin-table-wrap td:first-child { border-top: 0; }
+  .admin-table-wrap td::before {
+    content: attr(data-label);
+    color: #5f5f5f;
+    font-size: .75rem;
+    font-weight: 850;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .admin-table-wrap td[colspan] { display: block; }
+  .admin-table-wrap td[colspan]::before { content: none; }
+  .admin-toolbar { grid-template-columns: 1fr; }
+}
+
+/* Touch devices use intentional selected and pressed states, not sticky hover. */
+@media (hover: none), (pointer: coarse) {
+  :is(.button, .price-card, .feed-card img, .outcome, .category-orbit span,
+      .creator-benefit-card, .creator-process-grid li, .about-purpose-card,
+      .about-service-grid article, .about-principle-list article,
+      .brand-handle-grid article, .brand-journey-grid li, .brand-right-grid article,
+      .format-card, .admin-navigation button, .admin-table-button):hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .announcement:hover .announcement-track:not(:focus-within) { animation-play-state: running; }
+  .announcement.is-paused .announcement-track { animation-play-state: paused; }
+}
+
+/* Compact consent notice on narrow screens without obscuring the main action. */
+@media (max-width: 600px) {
+  .cookie-consent { max-height: min(42svh,18rem); overflow-y: auto; overscroll-behavior: contain; }
+  .cookie-consent p { margin-bottom: .7rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link { transition: none; }
+  .announcement-track { animation: none !important; }
+}
+
+/* Decorative package checkmarks remain visual and are not repeated by screen readers. */
+.price-card li::before {
+  content: "" !important;
+  background-color: #0b0b0b !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23d4ff3a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='m5 10 3 3 7-7'/%3E%3C/svg%3E") !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: .85rem !important;
+}
+.price-featured li::before {
+  background-color: #d4ff3a !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%238116e0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='m5 10 3 3 7-7'/%3E%3C/svg%3E") !important;
+}

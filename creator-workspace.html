@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://dmcpnwhpcybmvgutwtaf.supabase.co https://www.google-analytics.com; connect-src 'self' https://dmcpnwhpcybmvgutwtaf.supabase.co https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Creator Workspace | Snappi</title>
+  <link rel="icon" type="image/webp" href="assets/snappi-icon.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=40">
+    <link rel="stylesheet" href="interface-improvements.css?v=1" />
+</head>
+<body class="member-gate-page" data-workspace-role="creator">
+  <main class="member-gate">
+    <a href="index.html" data-member-exit-home aria-label="Exit workspace and return to Snappi"><img src="assets/snappi-logo.webp" alt="Snappi" width="1086" height="362" decoding="async"></a>
+    <p class="member-gate-status" data-member-status>Checking secure access…</p>
+    <section class="member-gate-card" data-member-shell hidden>
+      <p class="kicker">🎬 Creator Workspace</p>
+      <h1>Welcome, <span data-member-name>creator</span>.</h1>
+      <p>Your campaigns, profile, updates, and support are organized in one place.</p>
+      <div class="member-metric-grid"><article><small>Application</small><strong data-member-application-status>Loading…</strong></article><article><small>Active campaigns</small><strong data-member-campaign-count>—</strong></article><article><small>Unread updates</small><strong data-member-notification-count>—</strong></article></div>
+      <div class="member-workspace-grid"><section><div class="member-section-heading"><h2>Campaigns</h2><span>Google Drive files open securely in a new tab.</span></div><div class="member-record-list" data-member-campaigns><p>Loading campaigns…</p></div></section><section><div class="member-section-heading"><h2>Notifications</h2><button type="button" data-member-read-all>Mark all read</button></div><div class="member-record-list" data-member-notifications><p>Loading updates…</p></div></section><section><div class="member-section-heading"><h2>Support history</h2><button type="button" data-member-support-open>New request</button></div><div class="member-record-list" data-member-support-list><p>Loading support…</p></div></section><section><div class="member-section-heading"><h2>Profile settings</h2></div><form class="member-settings-form" data-member-settings-form><label><span>Name</span><input name="fullName" required></label><label><span>Phone</span><input name="phone" required></label><button class="button button-lime" type="submit">Save profile</button><p data-member-settings-status role="status"></p></form></section></div>
+      <div><a class="button button-lime" href="index.html" data-member-exit-home>Exit to Homepage</a><button class="button button-glass" type="button" data-member-support-open>Get Support</button><button class="button button-glass" type="button" data-member-logout>Log Out</button></div>
+      <a href="mailto:support@snappi-eg.com">Or email support@snappi-eg.com</a>
+    </section>
+  </main>
+  <dialog class="snappi-modal" data-member-support-dialog aria-labelledby="member-support-title"><div class="snappi-modal-panel snappi-modal-compact"><button class="snappi-modal-close" type="button" data-member-support-close aria-label="Close support form">×</button><div class="snappi-modal-heading"><p class="snappi-modal-title" id="member-support-title">Get support</p><p>Your request will go directly to the Snappi Support Queue.</p></div><form class="snappi-modal-form" data-member-support-form><label><select class="snappi-input" name="category" required><option value="" selected disabled></option><option value="general">General question</option><option value="account_access">Account access</option><option value="active_campaign">Active campaign</option><option value="security">Security or privacy</option><option value="enhancement">Enhancement idea</option></select><span>Issue type</span></label><label><input class="snappi-input" name="subject" placeholder=" " required><span>Subject</span></label><label><textarea class="snappi-input" name="message" rows="5" placeholder=" " required></textarea><span>How can we help?</span></label><p class="support-diagnostics-note">Priority is assigned from the issue type and can be adjusted by Snappi administrators.</p><button class="snappi-modal-submit" type="submit"><span>Submit request</span><span class="typing-indicator" aria-hidden="true" hidden><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-shadow"></i><i class="typing-shadow"></i><i class="typing-shadow"></i></span></button><p class="snappi-form-status" role="status" aria-live="polite"></p></form></div></dialog>
+  <script src="supabase-config.js?v=1"></script><script src="supabase-client.js?v=10"></script><script src="account-workspace.js?v=9" defer></script>
+</body>
+</html>

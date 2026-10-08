@@ -1,52 +1,378 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Snappi is Egypt's premium UGC platform, connecting bold brands with standout creators. Coming soon.">
-  <meta name="theme-color" content="#080808">
-  <title>Snappi | Coming Soon</title>
-  <link rel="icon" href="./snappi-icon.png" type="image/png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="coming-soon.css">
-</head>
-<body>
-  <div class="coming-soon-page">
-    <div class="ambient ambient-purple" aria-hidden="true"></div>
-    <div class="ambient ambient-lime" aria-hidden="true"></div>
-    <div class="background-grid" aria-hidden="true"></div>
-    <header class="coming-soon-header">
-      <a class="brand" href="./" aria-label="Snappi home"><img src="./snappi-logo.png" alt="Snappi"></a>
-      <p class="launch-status"><span aria-hidden="true"></span>Launching in Egypt</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://dmcpnwhpcybmvgutwtaf.supabase.co https://www.google-analytics.com; connect-src 'self' https://dmcpnwhpcybmvgutwtaf.supabase.co https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; form-action 'self'; upgrade-insecure-requests" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Snappi connects ambitious brands with creators who turn clear briefs into authentic, ready-to-publish content." />
+    <title>Snappi | Creator content built to perform</title>
+    <!-- SOCIAL SHARING: Controls the preview shown when this page is shared. -->
+    <link rel="canonical" href="https://www.snappi-eg.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Snappi" />
+    <meta property="og:title" content="Snappi | Creator content built to perform" />
+    <meta property="og:description" content="Snappi connects ambitious brands with creators who turn clear briefs into authentic, ready-to-publish content." />
+    <meta property="og:url" content="https://www.snappi-eg.com/" />
+    <meta property="og:image" content="https://www.snappi-eg.com/assets/snappi-social-preview.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Snappi — Egypt’s premium UGC platform" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Snappi | Creator content built to perform" />
+    <meta name="twitter:description" content="Snappi connects ambitious brands with creators who turn clear briefs into authentic, ready-to-publish content." />
+    <meta name="twitter:image" content="https://www.snappi-eg.com/assets/snappi-social-preview.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="icon" href="assets/snappi-icon.webp" type="image/png" />
+      <!-- PUBLIC STYLES: Edit colors, spacing, page sections, and responsive rules in styles.css. -->
+    <link rel="stylesheet" href="styles.css?v=40" />
+    <link rel="stylesheet" href="interface-improvements.css?v=1" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="announcement" aria-label="Snappi announcements">
+      <div class="announcement-track" aria-hidden="true">
+        <span>EGYPT’S CREATOR NETWORK</span><i>✦</i><span>CONTENT BUILT TO PERFORM</span><i>✦</i><span>JOIN THE SNAPPI LAUNCH</span><i>✦</i>
+        <span>EGYPT’S CREATOR NETWORK</span><i>✦</i><span>CONTENT BUILT TO PERFORM</span><i>✦</i><span>JOIN THE SNAPPI LAUNCH</span><i>✦</i>
+      </div>
+    </div>
+
+    <header class="site-header" id="top">
+      <a class="brand" href="#top" aria-label="Snappi home"><img src="assets/snappi-logo.webp" alt="Snappi" width="1086" height="362" decoding="async" /></a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="platform-menu">Platform <span>⌄</span></button>
+          <div class="nav-mega-menu" id="platform-menu" hidden>
+            <p>EXPLORE SNAPPI</p>
+            <div>
+              <a href="brands.html"><b>🏷️ For Brands</b><small>Plan campaigns and discover creators.</small></a>
+              <a href="creator-application.html"><b>🎬 For Creators</b><small>Build your profile and find opportunities.</small></a>
+              <a href="#process"><b>🧭 Campaign Workflow</b><small>See the path from brief to delivery.</small></a>
+              <a href="packages.html"><b>📦 Packages</b><small>Compare every package and feature.</small></a>
+              <a href="creator-application.html"><b>✨ Creator Network</b><small>Learn about the founding roster.</small></a>
+              <a href="about.html"><b>👋 About Snappi</b><small>Learn what Snappi is building.</small></a>
+              <button type="button"   class="modal-text-trigger" data-modal-open="support"><b>💬 Support & Contact</b><small>Talk to the Snappi team.</small></button>
+            </div>
+          </div>
+        </div>
+        <a href="#process">How It Works</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <div class="header-actions">
+        <button type="button" class="login-link modal-text-trigger"   data-modal-open="login">Log In</button>
+        <button class="button button-lime" type="button" data-modal-open="campaign">Start a Campaign</button>
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+      </div>
+      <!-- MOBILE NAVIGATION: A direct, full-screen menu with primary routes, supporting links, and contact access. -->
+      <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
+        <div class="mobile-nav-primary">
+          <a class="is-active" href="#top"><span>01</span>Home</a>
+          <a href="brands.html"><span>02</span>For Brands</a>
+          <a href="creator-application.html"><span>03</span>For Creators</a>
+          <a href="#process"><span>04</span>How It Works</a>
+          <a href="packages.html"><span>05</span>Pricing</a>
+        </div>
+        <div class="mobile-nav-secondary"><a href="about.html">About Snappi</a><a href="content-types.html">Content Types</a><a href="careers.html">Careers</a><button type="button"   class="modal-text-trigger" data-modal-open="support">Support</button></div>
+        <div class="mobile-nav-actions"><button type="button" data-modal-open="campaign">Start a Campaign</button><button type="button"   class="modal-text-trigger" data-modal-open="login">Log In</button></div>
+        <div class="mobile-nav-footer"><a href="mailto:support@snappi-eg.com">support@snappi-eg.com</a><div><a href="https://instagram.com/snappi.eg" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/social-instagram.svg?v=2" width="32" height="32" alt="" decoding="async" /></a><a href="https://tiktok.com/@snappi.eg" target="_blank" rel="noopener" aria-label="TikTok"><img src="assets/social-tiktok.svg?v=2" width="32" height="32" alt="" decoding="async" /></a><a href="https://facebook.com/snappi.eg" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/social-facebook.svg?v=2" width="32" height="32" alt="" decoding="async" /></a><a href="https://linkedin.com/company/snappi-eg" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/social-linkedin.svg?v=2" width="32" height="32" alt="" decoding="async" /></a></div></div>
+      </nav>
     </header>
-    <main class="coming-soon-main">
-      <section class="launch-message" aria-labelledby="coming-soon-title">
-        <p class="eyebrow">Creators × brands × culture</p>
-        <h1 id="coming-soon-title">Something <em>snappi</em> is coming.</h1>
-        <p class="intro">Egypt's premium UGC platform. Real creators. Raw content. Real growth for brands that dare to stand out.</p>
+
+    <main id="main-content">
+      <!-- SECTION: Hero — edit the main headline, introduction, and creator imagery below. -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-spotlight" aria-hidden="true"></div>
+        <div class="hero-copy reveal">
+          <p class="kicker">Creator content for modern brands</p>
+          <h1 id="hero-title">Real creators.<br /><span>Content people</span><br />actually watch.</h1>
+          <p class="hero-intro">Snappi connects ambitious brands with creators who turn clear briefs into authentic, ready-to-publish content.</p>
+          <div class="hero-actions">
+            <button class="button button-lime magnetic" type="button" data-modal-open="campaign">Start a Campaign <b>↗</b></button>
+            <a class="text-link creator-content-link" href="#feed">Explore Creator Content <span>↓</span></a>
+          </div>
+          <div class="hero-tags"><span>Clear briefs</span><span>Curated creators</span><span>Ready-to-use content</span></div>
+        </div>
+        <div class="hero-media reveal" aria-label="Snappi creator content examples">
+          <figure class="phone-card phone-card-one"><img src="assets/real-hero-beauty.webp" alt="Beauty creator filming a skincare demonstration at home" width="941" height="1672" decoding="async" /><figcaption><b>Product story</b><span>Beauty · 00:18</span></figcaption></figure>
+          <figure class="phone-card phone-card-two"><img src="assets/real-hero-lifestyle.webp" alt="Lifestyle creator filming a morning routine" width="941" height="1672" decoding="async" /><figcaption><b>Creator POV</b><span>Lifestyle · 00:24</span></figcaption></figure>
+          <figure class="phone-card phone-card-three"><img src="assets/real-hero-tech.webp" alt="Technology creator recording a product review" width="941" height="1672" decoding="async" /><figcaption><b>Native review</b><span>Technology · 00:15</span></figcaption></figure>
+          <div class="floating-note note-one">Brief approved <b>✓</b></div>
+          <div class="floating-note note-two"><b>6</b> creators matched</div>
+        </div>
       </section>
-      <aside class="follow-card" aria-labelledby="follow-title">
-        <h2 id="follow-title">Follow the launch</h2>
-        <p>Early creator calls, brand updates, and launch announcements will drop here first.</p>
-        <nav class="social-links" aria-label="Snappi social media">
-          <a href="https://www.instagram.com/snappi.eg" target="_blank" rel="noopener noreferrer" aria-label="Follow Snappi on Instagram">
-            <span class="social-icon social-icon-instagram"><img src="./IG.png" alt="IG Logo"></span><span><strong>Instagram</strong><small>@snappi.eg</small></span>
-          </a>
-          <a href="https://www.tiktok.com/@snappi.eg" target="_blank" rel="noopener noreferrer" aria-label="Follow Snappi on TikTok">
-            <span class="social-icon"><img src="./TikTok.png" alt="Tiktok Logo"></span><span><strong>TikTok</strong><small>@snappi.eg</small></span>
-          </a>
-          <a href="https://www.facebook.com/profile.php?id=61594666805747" target="_blank" rel="noopener noreferrer" aria-label="Follow Snappi on Facebook">
-            <span class="social-icon"><img src="./FB.png" alt="FB Logo"></span><span><strong>Facebook</strong><small>Snappi EG</small></span>
-          </a>
-          <a href="https://www.linkedin.com/company/snappi-eg" target="_blank" rel="noopener noreferrer" aria-label="Follow Snappi on LinkedIn">
-            <span class="social-icon"><img src="./linkedin.png" alt="linkedin Logo"></span><span><strong>LinkedIn</strong><small>Snappi EG</small></span>
-          </a>
-        </nav>
-      </aside>
+
+      <!-- SECTION: Platform capabilities — cards are connected to content in site.js. -->
+      <section class="capability-section section-pad" id="platform" aria-labelledby="capability-title">
+        <div class="section-heading reveal"><p class="kicker">🧩 One connected workflow</p><h2 id="capability-title">Everything your campaign needs.</h2><p>Open a capability to see how Snappi keeps brands and creators moving together.</p></div>
+        <div class="capability-layout reveal">
+          <div class="capability-grid" role="tablist" aria-label="Snappi platform capabilities">
+            <button class="capability-card is-active" type="button" role="tab" aria-selected="true" data-capability="match"><span>01</span><b>Creator Match</b><small>Find voices that fit the brief.</small><i>→</i></button>
+            <button class="capability-card" type="button" role="tab" aria-selected="false" data-capability="brief"><span>02</span><b>Campaign Brief</b><small>Keep direction and deliverables clear.</small><i>→</i></button>
+            <button class="capability-card" type="button" role="tab" aria-selected="false" data-capability="workflow"><span>03</span><b>Content Workflow</b><small>Track work from concept to delivery.</small><i>→</i></button>
+            <button class="capability-card" type="button" role="tab" aria-selected="false" data-capability="review"><span>04</span><b>Feedback & Approvals</b><small>Organize revisions and decisions.</small><i>→</i></button>
+            <button class="capability-card" type="button" role="tab" aria-selected="false" data-capability="creator"><span>05</span><b>Creator Workspace</b><small>Briefs, submissions, and updates.</small><i>→</i></button>
+            <button class="capability-card" type="button" role="tab" aria-selected="false" data-capability="brand"><span>06</span><b>Brand Workspace</b><small>Campaigns and conversations together.</small><i>→</i></button>
+          </div>
+          <article class="capability-preview" id="capability-preview" role="tabpanel" aria-live="polite">
+            <p id="capability-label">CREATOR MATCH</p><h3 id="capability-preview-title">Find the right creator voice.</h3><p id="capability-preview-copy">Review creator options selected around your audience, category, and campaign direction.</p>
+            <ul id="capability-preview-list"><li>Category and audience fit</li><li>Clear creator profiles</li><li>Final selection stays with the brand</li></ul>
+            <button class="button button-lime" type="button" data-modal-open="campaign">Start a Campaign</button>
+          </article>
+        </div>
+      </section>
+
+      <!-- SECTION: Brand and creator routes. -->
+      <section class="audience-section section-pad" aria-labelledby="audience-title">
+        <div class="section-heading reveal"><p class="kicker">🛣️ Choose your route</p><h2 id="audience-title">One platform.<br />Two ways to grow.</h2></div>
+        <div class="audience-grid">
+          <article class="audience-card audience-brand reveal" id="brands">
+            <p class="card-index">01 / FOR BRANDS</p><h3>Turn clear briefs into content that earns attention.</h3>
+            <ul><li>Find relevant creator voices</li><li>Keep feedback and approvals moving</li><li>Receive organized campaign content</li></ul>
+            <button class="button button-dark" type="button" data-modal-open="campaign">Build Your Campaign</button>
+            <img src="assets/real-brand-team.webp" alt="Brand team reviewing creator campaign content" loading="lazy" width="1448" height="1086" decoding="async" />
+          </article>
+          <article class="audience-card audience-creator reveal" id="creators">
+            <p class="card-index">02 / FOR CREATORS</p><h3>Make content. Build proof. Get paid.</h3>
+            <ul><li>Apply for suitable opportunities</li><li>Work from clear campaign briefs</li><li>Grow a stronger creator portfolio</li></ul>
+            <a class="button button-lime" href="creator-application.html">Join the Creator Network</a>
+            <img src="assets/real-creator-home.webp" alt="Creator preparing a home content shoot" loading="lazy" width="1448" height="1086" decoding="async" />
+          </article>
+        </div>
+      </section>
+
+      <!-- SECTION: Creator content gallery and category filters. -->
+      <section class="feed-section section-pad" id="feed" aria-labelledby="feed-title">
+        <div class="section-heading section-heading-light reveal"><p class="kicker">📱 Made to stop the scroll</p><h2 id="feed-title">Formats people want to watch.</h2><p>Social-first concepts designed around how audiences discover, compare, and trust products.</p></div>
+        <div class="filter-pills" role="group" aria-label="Content categories">
+          <button class="is-active" type="button" data-filter="all">All</button><button type="button" data-filter="beauty">Beauty</button><button type="button" data-filter="fashion">Fashion</button><button type="button" data-filter="food">Food</button><button type="button" data-filter="fitness">Fitness</button><button type="button" data-filter="tech">Technology</button>
+        </div>
+        <div class="feed-grid">
+          <article class="feed-card feed-tall reveal" data-category="beauty"><img src="assets/real-feed-beauty.webp" alt="Beauty creator demonstrating a skincare serum" loading="lazy" width="1122" height="1402" decoding="async" /><div><span>BEAUTY</span><h3>Product story</h3><p>Show the benefit in real life.</p></div></article>
+          <article class="feed-card reveal" data-category="fashion"><img src="assets/real-feed-fashion.webp" alt="Fashion creator recording a styling video" loading="lazy" width="1122" height="1402" decoding="async" /><div><span>FASHION</span><h3>Style in motion</h3><p>Native, expressive, memorable.</p></div></article>
+          <article class="feed-card feed-message reveal" data-category="tech"><small>THE SNAPPI FORMULA</small><h3>Hook fast.<br />Feel real.<br />Stay memorable.</h3><b>↘</b></article>
+          <article class="feed-card reveal" data-category="food"><img src="assets/real-feed-food.webp" alt="Food creator filming a first-taste reaction" loading="lazy" width="1122" height="1402" decoding="async" /><div><span>FOOD</span><h3>First reaction</h3><p>Make discovery feel personal.</p></div></article>
+          <article class="feed-card feed-wide reveal" data-category="fitness"><img src="assets/real-feed-fitness.webp" alt="Fitness creator filming a recovery routine" loading="lazy" width="1122" height="1402" decoding="async" /><div><span>FITNESS</span><h3>Creator routine</h3><p>Place the product inside a credible moment.</p></div></article>
+        </div>
+      </section>
+
+      <!-- SECTION: Brand outcomes. -->
+      <section class="outcomes-section section-pad" aria-labelledby="outcomes-title">
+        <div class="section-heading reveal"><p class="kicker">⚡ Built for momentum</p><h2 id="outcomes-title">Less chasing.<br />More creating.</h2></div>
+        <div class="outcome-list">
+          <article class="outcome reveal"><span>01</span><h3>Find the right voice</h3><p>Connect with creators who fit your audience, category, and campaign direction.</p></article>
+          <article class="outcome reveal"><span>02</span><h3>Keep production moving</h3><p>Bring briefs, feedback, revisions, and deliverables into one clear process.</p></article>
+          <article class="outcome reveal"><span>03</span><h3>Launch with confidence</h3><p>Receive organized content prepared for the channels and rights you agreed.</p></article>
+        </div>
+      </section>
+
+      <!-- SECTION: Sample campaign — stage copy and images are maintained in site.js. -->
+      <section class="sample-section section-pad" aria-labelledby="sample-title">
+        <div class="sample-copy reveal"><p class="kicker">🧪 Sample campaign</p><h2 id="sample-title">See the work move.</h2><p>A sample skincare launch shows how a Snappi campaign progresses from the first brief to launch-ready content.</p><div class="sample-disclaimer">Illustrative workflow · No client results claimed</div></div>
+        <div class="campaign-demo reveal">
+          <div class="campaign-demo-top"><span>SKINCARE PRODUCT LAUNCH</span><b id="campaign-progress">01 / 06</b></div>
+          <div class="campaign-preview" id="campaign-stage-panel" role="tabpanel" aria-live="polite"><img id="campaign-image" src="assets/real-brand-campaign.webp" alt="Brand team preparing a sample campaign" width="1672" height="941" decoding="async" /><div class="campaign-preview-copy"><div class="campaign-preview-copy-inner"><small id="campaign-label">STEP 01</small><h3 id="campaign-title">Campaign brief received</h3><p id="campaign-copy">Goals, product details, audience, deliverables, and timing are gathered in one clear starting point.</p></div></div></div>
+          <div class="campaign-steps" role="tablist" aria-label="Sample campaign stages">
+            <button class="is-active" type="button" data-step="0">Brief</button><button type="button" data-step="1">Shortlist</button><button type="button" data-step="2">Concepts</button><button type="button" data-step="3">Production</button><button type="button" data-step="4">Review</button><button type="button" data-step="5">Launch</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: Creator roster categories. -->
+      <section class="roster-section section-pad" aria-labelledby="roster-title">
+        <div class="section-heading section-heading-light reveal"><p class="kicker">🌟 The founding roster</p><h2 id="roster-title">Distinct voices.<br />Growing categories.</h2><p>Our approved creator network is taking shape. Tell us what you need or apply to join the founding roster.</p></div>
+        <div class="category-orbit reveal"><span>Beauty</span><span>Food</span><span>Fitness</span><span>Fashion</span><span>Technology</span><span>Lifestyle</span></div>
+        <div class="center-actions"><button class="button button-lime" type="button" data-modal-open="campaign">Request a Creator Shortlist</button><a class="button button-outline-light" href="creator-application.html">Apply as a Creator</a></div>
+      </section>
+
+      <!-- SECTION: Campaign process. -->
+      <section class="process-section section-pad" id="process" aria-labelledby="process-title">
+        <div class="process-sticky reveal"><p class="kicker">🧭 How Snappi works</p><h2 id="process-title">From idea<br />to launch.</h2><p id="process-description">Select the service level that matches your campaign goal.</p><a class="text-link dark-link" href="#pricing">View packages <span>↓</span></a></div>
+        <ol class="process-list">
+          <li class="is-active reveal" data-description="Select the service level that matches your campaign goal."><span>01</span><div><small>START</small><h3>Choose a package</h3></div></li>
+          <li class="reveal" data-description="Tell us about your brand, audience, product, and desired result."><span>02</span><div><small>DIRECTION</small><h3>Share your brief</h3></div></li>
+          <li class="reveal" data-description="Review suitable creator profiles and the recommended content direction."><span>03</span><div><small>MATCH</small><h3>Select creators</h3></div></li>
+          <li class="reveal" data-description="Creators produce the agreed content while feedback stays organized."><span>04</span><div><small>CREATE</small><h3>Produce and review</h3></div></li>
+          <li class="reveal" data-description="Approve final deliverables and publish with confidence."><span>05</span><div><small>GO LIVE</small><h3>Approve and launch</h3></div></li>
+        </ol>
+      </section>
+
+      <!-- SECTION: Pricing summary — keep figures synchronized with packages.html. -->
+      <section class="pricing-section section-pad" id="pricing" aria-labelledby="pricing-title">
+        <div class="section-heading reveal"><p class="kicker">📦 Packages & services</p><h2 id="pricing-title">Choose your content pace.</h2><p>Start with the number of videos your campaign needs. You can confirm add-ons and usage rights in your proposal.</p></div>
+        <div class="pricing-grid">
+          <article class="price-card" data-package-card="starter"><p class="card-index">THE STARTER</p><h3>21,999 <small>EGP</small></h3><p>Best for testing creator content with a focused first campaign.</p><ul><li>3 short-form videos</li><li>Up to 3 matched creators</li><li>Brief and content guidance</li><li>2 revision rounds</li></ul><button type="button" class="button button-dark modal-text-trigger"   data-package="Starter" data-modal-open="campaign">Get Started</button></article>
+          <article class="price-card price-featured" data-package-card="growth"><div class="popular">🔥 MOST POPULAR</div><p class="card-index">THE GROWTH</p><h3>35,999 <small>EGP</small></h3><p>Best for brands ready to build more content variety.</p><ul><li>6 short-form videos</li><li>Up to 6 matched creators</li><li>Scripts and coordination</li><li>Priority support</li></ul><button type="button" class="button button-lime modal-text-trigger"   data-package="Growth" data-modal-open="campaign">Get Started</button></article>
+          <article class="price-card" data-package-card="premium"><p class="card-index">THE PREMIUM</p><h3>49,999 <small>EGP</small></h3><p>Best for a complete, coordinated content campaign.</p><ul><li>9 short-form videos</li><li>Up to 9 matched creators</li><li>Full campaign coordination</li><li>Campaign reporting</li></ul><button type="button" class="button button-dark modal-text-trigger"   data-package="Premium" data-modal-open="campaign">Get Started</button></article>
+        </div>
+        <div class="package-compare-link"><a class="button button-glass" href="packages.html">Compare all features <span>→</span></a></div>
+      </section>
+
+      <!-- SECTION: Creator call to action — intentionally disabled before application launch. -->
+      <section class="creator-cta section-pad" aria-labelledby="creator-cta-title">
+        <div class="creator-cta-copy reveal"><p class="kicker">🎬 For creators</p><h2 id="creator-cta-title">Your next paid idea could start here.</h2><p>Join Snappi’s creator network, build your profile, and be considered for campaigns that match your content style.</p><div><a class="button button-dark" href="creator-application.html">Become a Creator</a><a class="text-link dark-link" href="#process">Learn How It Works ↗</a></div></div>
+        <div class="creator-cta-image reveal"><img src="assets/real-creator-recruitment.webp" alt="Creator reviewing a completed social video" loading="lazy" width="1448" height="1086" decoding="async" /><span>CREATE<br />CONNECT<br />GET PAID</span></div>
+      </section>
+
+      <!-- SECTION: FAQs — site.js keeps one question open at a time. -->
+      <section class="faq-section section-pad" id="faq" aria-labelledby="faq-title">
+        <div class="faq-intro reveal"><p class="kicker">💡 FAQs</p><h2 id="faq-title">Questions,<br />answered.</h2><p>Need something else? Email <button type="button"   class="modal-text-trigger" data-modal-open="support">support@snappi-eg.com</button>.</p></div>
+        <div class="faq-list reveal">
+          <details open><summary>Why Snappi?<span aria-hidden="true">+</span></summary><p>We handle the path from brief to execution so brands can focus on the campaign while creators work from clear direction.</p></details>
+          <details><summary>How can Snappi help my brand grow?<span aria-hidden="true">+</span></summary><p>Snappi helps brands produce authentic creator content designed to improve attention, trust, and campaign consistency.</p></details>
+          <details><summary>How does the process work?<span aria-hidden="true">+</span></summary><p>Choose a package, share your brief, review creator options, approve the direction, and receive the agreed deliverables.</p></details>
+          <details><summary>Can I choose the creators?<span aria-hidden="true">+</span></summary><p>Yes. Snappi presents options based on your brand and campaign, and you approve the final creator selection.</p></details>
+          <details><summary>How long does content take?<span aria-hidden="true">+</span></summary><p>Most launch packages take approximately 15–20 business days after the brief and project details are finalized.</p></details>
+          <details><summary>Do I get revisions?<span aria-hidden="true">+</span></summary><p>Launch packages include up to two revision rounds within the agreed campaign scope.</p></details>
+        </div>
+      </section>
+
+      <!-- SECTION: Contact — campaign modal, booking, and email actions. -->
+      <section class="contact-section section-pad" id="contact" aria-labelledby="contact-title">
+        <p class="kicker">👋 Ready when you are</p><h2 id="contact-title">What would you like to do?</h2>
+        <div class="contact-options">
+          <button type="button" data-modal-open="campaign"><span>01</span><b>Start a campaign</b><small>Tell us what you want to create.</small><i>↗</i></button>
+          <a data-booking-link href="https://calendar.app.google/9if9VEzavdJcVFeU6" target="_blank" rel="noopener noreferrer"><span>02</span><b>Book a discovery call</b><small>Choose a time that works for you.</small><i>↗</i></a>
+          <a href="mailto:sales@snappi-eg.com?subject=Question%20for%20Snappi"><span>03</span><b>Ask a question</b><small>Open your email app and contact our sales team.</small><i>↗</i></a>
+        </div>
+      </section>
     </main>
-    <footer class="coming-soon-footer"><strong>www.snappi-eg.com</strong><span>Built for Egypt’s next generation of creators and brands.</span></footer>
-  </div>
-</body>
+
+    <footer class="site-footer">
+      <div class="footer-brand"><img src="assets/snappi-logo.webp" alt="Snappi" width="1086" height="362" decoding="async" /><p>Egypt’s premium UGC platform. Real creators. Raw content. Real growth for brands that dare to stand out.</p></div>
+      <div class="footer-column"><b>Explore</b><a href="brands.html">For Brands</a><a href="content-types.html">UGC Formats</a><a href="creator-application.html">For Creators</a><a href="#pricing">Pricing</a><a href="#faq">FAQs</a></div>
+      <div class="footer-column"><b>Company</b><a href="about.html">About Snappi</a><a href="careers.html">Careers</a><a href="legal.html">Privacy & Terms</a><button type="button"   class="modal-text-trigger" data-modal-open="support">Support & Feedback<br /><small>support@snappi-eg.com</small></button><a href="mailto:sales@snappi-eg.com">Sales<br /><small>sales@snappi-eg.com</small></a></div>
+      <div class="footer-social"><b>Follow Snappi</b><div><a href="https://instagram.com/snappi.eg" target="_blank" rel="noopener"><img src="assets/social-instagram.svg?v=2" width="32" height="32" alt="Instagram" decoding="async" /></a><a href="https://tiktok.com/@snappi.eg" target="_blank" rel="noopener"><img src="assets/social-tiktok.svg?v=2" width="32" height="32" alt="TikTok" decoding="async" /></a><a href="https://facebook.com/snappi.eg" target="_blank" rel="noopener"><img src="assets/social-facebook.svg?v=2" width="32" height="32" alt="Facebook" decoding="async" /></a><a href="https://linkedin.com/company/snappi-eg" target="_blank" rel="noopener"><img src="assets/social-linkedin.svg?v=2" width="32" height="32" alt="LinkedIn" decoding="async" /></a></div></div>
+      <p class="footer-bottom">© 2026 Snappi. All rights reserved.</p>
+    </footer>
+
+
+    <!-- SNAPPI MODAL SYSTEM: Reuse this shell for future pop-ups. -->
+    <dialog class="snappi-modal" data-modal="campaign" aria-labelledby="campaign-modal-title">
+      <div class="snappi-modal-panel">
+        <button class="snappi-modal-close" type="button" data-modal-close aria-label="Close campaign enquiry">×</button>
+        <div class="snappi-modal-heading">
+          <p class="snappi-modal-title" id="campaign-modal-title">Start your campaign</p>
+          <p>Share a few essentials and Snappi team will contact you shortly to understand what your brand needs.</p>
+        </div>
+        <form class="snappi-modal-form" data-campaign-form>
+          <div class="snappi-form-row">
+            <label><input class="snappi-input" name="name" type="text" placeholder=" " autocomplete="name" required><span>Your name</span></label>
+            <label><input class="snappi-input" name="brand" type="text" placeholder=" " autocomplete="organization" required><span>Brand name</span></label>
+          </div>
+          <label><input class="snappi-input" name="email" type="email" placeholder=" " autocomplete="email" required><span>Work email</span></label>
+          <label><input class="snappi-input" name="phone" type="tel" placeholder=" " autocomplete="tel" required><span>Mobile number</span></label>
+          <label><select class="snappi-input" name="package" required><option value="" selected disabled></option><option value="Starter">Starter</option><option value="Growth">Growth</option><option value="Premium">Premium</option><option value="Not sure yet">Not sure yet</option></select><span>Package</span></label>
+          <label><textarea class="snappi-input" name="goal" placeholder=" " rows="3" required></textarea><span>What should this campaign achieve?</span></label>
+          <label class="snappi-honeypot" aria-hidden="true"><input name="companyWebsite" type="text" tabindex="-1" autocomplete="off"><span>Company website</span></label>
+          <label class="snappi-consent"><input type="checkbox" required><span>I agree that Snappi may contact me about this enquiry.</span></label>
+          <button class="snappi-modal-submit" type="submit"><span>Send my enquiry</span><span class="typing-indicator" aria-hidden="true" hidden><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-shadow"></i><i class="typing-shadow"></i><i class="typing-shadow"></i></span></button>
+          <p class="snappi-form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog class="snappi-modal" data-modal="login" aria-labelledby="login-modal-title">
+      <div class="snappi-modal-panel snappi-modal-compact">
+        <button class="snappi-modal-close" type="button" data-modal-close aria-label="Close login">×</button>
+        <nav class="snappi-auth-tabs" aria-label="Workspace access"><button class="is-active" type="button" data-auth-view="signin">Sign In</button><button type="button" data-auth-view="join">Join Snappi</button></nav>
+        <div data-public-login-panel>
+          <div class="snappi-modal-heading">
+            <p class="snappi-modal-title" id="login-modal-title">Welcome back</p>
+            <p>Sign in to your Creator or Brand Workspace.</p>
+          </div>
+          <form class="snappi-modal-form" data-public-login-form>
+            <label><input class="snappi-input" name="email" type="email" placeholder=" " autocomplete="username" required><span>Email address</span></label>
+            <label><input class="snappi-input" name="password" type="password" placeholder=" " autocomplete="current-password" required><span>Password</span></label>
+            <button class="snappi-modal-submit" type="submit"><span>Sign In</span><span class="typing-indicator" aria-hidden="true" hidden><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-shadow"></i><i class="typing-shadow"></i><i class="typing-shadow"></i></span></button>
+            <button class="snappi-login-help" type="button" data-public-reset-request>Forgot password?</button>
+            <p class="snappi-form-status" data-public-login-status role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div data-public-join-panel hidden>
+          <div class="snappi-modal-heading"><p class="snappi-modal-title">Join Snappi</p><p>Choose how you would like to work with the Snappi community.</p></div>
+          <div class="snappi-join-choice"><button type="button" data-join-role="creator"><span>🎬</span><b>Join as a Creator</b><small>Apply to the creator network.</small></button><button type="button" data-join-role="brand"><span>🏷️</span><b>Join as a Brand</b><small>Select a package or request a discussion.</small></button></div>
+          <form class="snappi-modal-form snappi-join-form" data-creator-join-form hidden>
+            <button class="snappi-form-back" type="button" data-join-back>← Change account type</button>
+            <div class="snappi-form-row"><label><input class="snappi-input" name="fullName" placeholder=" " autocomplete="name" required><span>Full name</span></label><label><input class="snappi-input" name="phone" type="tel" placeholder=" " autocomplete="tel" required><span>Mobile number</span></label></div>
+            <label><input class="snappi-input" name="email" type="email" placeholder=" " autocomplete="email" required><span>Email address</span></label>
+            <label><input class="snappi-input" name="city" placeholder=" " required><span>City</span></label>
+            <label><input class="snappi-input" name="socialUrl" type="url" placeholder=" "><span>Main social profile</span></label>
+            <label><textarea class="snappi-input" name="portfolioUrls" rows="3" placeholder=" "></textarea><span>Portfolio links — one per line</span></label>
+            <label><input class="snappi-input" name="categories" placeholder=" "><span>Content categories — separated by commas</span></label>
+            <label><input class="snappi-input" name="languages" placeholder=" "><span>Languages — separated by commas</span></label>
+            <label><input class="snappi-input" name="availability" placeholder=" "><span>Current availability</span></label>
+            <label class="snappi-file-field"><span>Profile photo · JPG, PNG or WebP · maximum 2 MB</span><input name="profilePhoto" type="file" accept="image/jpeg,image/png,image/webp" required></label>
+            <label class="snappi-consent"><input name="isOver18" type="checkbox" required><span>I confirm that I am 18 years old or above.</span></label>
+            <label class="snappi-consent"><input name="consent" type="checkbox" required><span>I agree that Snappi may review my application and contact me.</span></label>
+            <label class="snappi-honeypot" aria-hidden="true"><input name="companyWebsite" tabindex="-1" autocomplete="off"><span>Company website</span></label>
+            <button class="snappi-modal-submit" type="submit"><span>Submit Creator Application</span><span class="typing-indicator" aria-hidden="true" hidden><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-shadow"></i><i class="typing-shadow"></i><i class="typing-shadow"></i></span></button>
+            <p class="snappi-form-status" role="status" aria-live="polite"></p>
+          </form>
+          <form class="snappi-modal-form snappi-join-form" data-brand-join-form hidden>
+            <button class="snappi-form-back" type="button" data-join-back>← Change account type</button>
+            <div class="snappi-form-row"><label><input class="snappi-input" name="contactName" placeholder=" " autocomplete="name" required><span>Contact name</span></label><label><input class="snappi-input" name="phone" type="tel" placeholder=" " autocomplete="tel" required><span>Mobile number</span></label></div>
+            <label><input class="snappi-input" name="email" type="email" placeholder=" " autocomplete="email" required><span>Work email</span></label>
+            <label><input class="snappi-input" name="companyName" placeholder=" " autocomplete="organization" required><span>Company name</span></label>
+            <div class="snappi-form-row"><label><input class="snappi-input" name="industry" placeholder=" "><span>Industry</span></label><label><input class="snappi-input" name="websiteUrl" type="url" placeholder=" "><span>Website or social profile</span></label></div>
+            <label><select class="snappi-input" name="packageName" required><option value="" selected disabled></option><option>Starter</option><option>Growth</option><option>Premium</option><option>Not Sure Yet</option></select><span>Preferred package</span></label>
+            <label><textarea class="snappi-input" name="campaignObjective" rows="3" placeholder=" "></textarea><span>What should your campaign achieve?</span></label>
+            <label><input class="snappi-input" name="preferredLaunchDate" type="date" placeholder=" "><span>Preferred launch date</span></label>
+            <label class="snappi-consent"><input name="consent" type="checkbox" required><span>I agree that Snappi may review this request and contact me.</span></label>
+            <label class="snappi-honeypot" aria-hidden="true"><input name="companyWebsite" tabindex="-1" autocomplete="off"><span>Company website</span></label>
+            <button class="snappi-modal-submit" type="submit"><span>Submit Brand Request</span><span class="typing-indicator" aria-hidden="true" hidden><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-shadow"></i><i class="typing-shadow"></i><i class="typing-shadow"></i></span></button>
+            <p class="snappi-form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div data-public-password-panel hidden>
+          <div class="snappi-modal-heading"><p class="snappi-modal-title">Create a new password</p><p>Enter your new private password twice to continue.</p></div>
+          <form class="snappi-modal-form" data-public-password-form>
+            <label><input class="snappi-input" name="password" type="password" minlength="10" placeholder=" " autocomplete="new-password" required><span>New password</span></label>
+            <label><input class="snappi-input" name="confirmation" type="password" minlength="10" placeholder=" " autocomplete="new-password" required><span>Confirm password</span></label>
+            <button class="snappi-modal-submit" type="submit"><span>Update Password</span><span class="typing-indicator" aria-hidden="true" hidden><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-shadow"></i><i class="typing-shadow"></i><i class="typing-shadow"></i></span></button>
+            <p class="snappi-form-status" data-public-password-status role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <a class="snappi-login-support" href="mailto:support@snappi-eg.com">Need help? Contact support@snappi-eg.com</a>
+      </div>
+    </dialog>
+
+    <!-- PUBLIC SCRIPT: Shared UI plus the Google Sheets campaign-enquiry connection. -->
+    
+    <!-- SUPPORT MODAL: Routes sales, creator, website, and enhancement messages. -->
+    <dialog class="snappi-modal snappi-support-modal" data-modal="support" aria-labelledby="support-modal-title">
+      <div class="snappi-modal-panel">
+        <button class="snappi-modal-close" type="button" data-modal-close aria-label="Close contact and support">×</button>
+        <div class="snappi-modal-heading"><p class="snappi-modal-title" id="support-modal-title">How can we help?</p><p>Choose the reason and submit your message directly to the Snappi support queue.</p></div>
+        <div class="support-route-grid" role="group" aria-label="Contact reason">
+          <button type="button" data-support-route="brand"><span>🏷️</span><b>Brand enquiry</b><small>Campaigns, packages, and collaboration.</small></button>
+          <button type="button" data-support-route="creator"><span>🎬</span><b>Creator support</b><small>Applications, profiles, and opportunities.</small></button>
+          <button type="button" data-support-route="website"><span>🛠️</span><b>Website issue</b><small>Broken links, display, or access problems.</small></button>
+          <button type="button" data-support-route="enhancement"><span>✨</span><b>Enhancement idea</b><small>Help make Snappi better.</small></button>
+        </div>
+        <form class="snappi-modal-form support-form" data-support-form>
+          <div class="support-form-fields" hidden>
+            <div class="snappi-form-row"><label><input class="snappi-input" name="name" type="text" placeholder=" " autocomplete="name" required><span>Your name</span></label><label><input class="snappi-input" name="email" type="email" placeholder=" " autocomplete="email" required><span>Email address</span></label></div>
+            <label><input class="snappi-input" name="phone" type="tel" placeholder=" " autocomplete="tel"><span>Mobile number (for phone or WhatsApp replies)</span></label>
+            <label><input class="snappi-input" name="subject" type="text" placeholder=" " required><span>Subject</span></label>
+            <label><textarea class="snappi-input" name="message" placeholder=" " rows="4" required></textarea><span>How can we help?</span></label>
+            <label><select class="snappi-input" name="reply" required><option value="" selected disabled></option><option value="Email">Email</option><option value="Phone">Phone</option><option value="WhatsApp">WhatsApp</option></select><span>Preferred reply method</span></label>
+            <p class="support-diagnostics-note" data-support-diagnostics hidden>To help diagnose the issue, the submitted request will include this page URL, browser, screen size, and local date and time. No IP address or device identifier is collected.</p>
+            <label class="snappi-consent"><input name="consent" type="checkbox" required><span>I agree that Snappi may contact me about this message.</span></label>
+            <label class="snappi-honeypot" aria-hidden="true"><input name="companyWebsite" tabindex="-1" autocomplete="off"><span>Company website</span></label>
+            <button class="snappi-modal-submit" type="submit"><span>Submit support request</span><span class="typing-indicator" aria-hidden="true" hidden><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-circle"></i><i class="typing-shadow"></i><i class="typing-shadow"></i><i class="typing-shadow"></i></span></button>
+            <p class="snappi-form-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <!-- BACK TO TOP: Floating Snappi mark appears after the visitor scrolls. -->
+    <button class="snappi-back-to-top" type="button" data-back-to-top aria-label="Return to the top of the page"><img src="assets/snappi-icon.webp" alt="" aria-hidden="true" width="512" height="512" decoding="async" /></button>
+
+    <script src="supabase-config.js?v=1"></script>
+    <script src="supabase-client.js?v=10"></script>
+    <script src="site.js?v=18" defer></script>
+  </body>
 </html>
