@@ -25,7 +25,8 @@
 - [x] Add a Content Security Policy and strict referrer policy to every public and workspace page.
 - [ ] **Deferred until a future Supabase Pro upgrade:** enable leaked-password protection.
 - [ ] **Deferred until a future Supabase Pro upgrade:** enrol the Super Admin account in MFA.
-- [ ] Complete the shared-secret steps in `GOOGLE_SHEETS_WEBHOOK_SETUP.md`, deploy the updated Apps Script, save the two Supabase secrets, deploy `public-brand-lead`, and submit one real enquiry.
+- [x] Protect the Google Apps Script receiver with a server-held shared secret, store its URL and secret in Supabase, deploy Apps Script version 2, and deploy `public-brand-lead` version 9. A direct request without the secret was rejected on 9 October 2026.
+- [ ] Submit one real campaign enquiry and confirm exactly one row appears in Google Sheets.
 - [ ] Put the public domain behind a host or proxy that can set HTTP response headers, then add `X-Content-Type-Options: nosniff`, `Permissions-Policy`, `Referrer-Policy`, and `Content-Security-Policy` as response headers. GitHub Pages cannot configure these custom headers.
 - [ ] Add Cloudflare Turnstile to public submission forms when the site begins receiving meaningful automated abuse. Server-side rate limits are already active.
 
@@ -40,11 +41,11 @@
 
 ## GitHub Pages
 
-- [ ] Upload the **contents** of `Snappi Live` to the repository root.
-- [ ] Publish from `main` and `/ (root)`.
-- [ ] Keep `CNAME`, `.nojekyll`, `robots.txt`, and `sitemap.xml` in the root.
-- [ ] Confirm custom-domain DNS succeeds.
-- [ ] Enable **Enforce HTTPS**.
+- [x] Upload the **contents** of `Snappi Live` to the repository root (commit `4c61c99`).
+- [x] Publish from `main` and `/ (root)`.
+- [x] Keep `CNAME`, `.nojekyll`, `404.html`, `robots.txt`, and `sitemap.xml` in the root.
+- [x] Confirm custom-domain DNS succeeds for `snappi-eg.com`; `www.snappi-eg.com` redirects to the apex domain.
+- [x] Confirm HTTPS is enforced and the certificate validates for both domain forms.
 - [ ] Open the site in a private browser window and test every visible link.
 
 ## After publishing
