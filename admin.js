@@ -12,7 +12,7 @@
   let passwordChangeToken = null;
   const TABLE_PAGE_SIZE = 12;
   const tablePages = {};
-  const state = { profile: null, permissions: {}, users: [], roles: [], creatorApplications: [], brandRequests: [], subscriptions: [], creators: [], brands: [], campaigns: [], content: [], support: [], supportNotes: [], careers: [], activity: [] };
+  const state = { profile: null, permissions: {}, users: [], roles: [], creatorApplications: [], brandRequests: [], subscriptions: [], creators: [], brands: [], campaigns: [], campaignDeletionRequests: [], content: [], support: [], supportNotes: [], careers: [], activity: [] };
   const titles = { overview: "Snappi control center", "creator-applications": "Creator applications", "brand-requests": "Brand requests", subscriptions: "Subscriptions", users: "Administration", creators: "Creator management", brands: "Brand management", campaigns: "Campaign management", content: "Content review", support: "Support queue", careers: "Careers" };
   const statusLabels = (value = "") => value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
   const dateLabel = (value) => value ? new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(value)) : "—";
@@ -139,6 +139,9 @@
   const applyAccessVisibility = () => {
     document.querySelectorAll("[data-super-admin-only]").forEach((element) => { if (!isSuperAdmin()) element.hidden = true; else if (!element.matches("[data-admin-subpanel]")) element.hidden = false; });
     document.querySelectorAll("[data-permission]").forEach((element) => { element.hidden = !can(element.dataset.permission); });
+    document.querySelectorAll("[data-permissions]").forEach((element) => {
+      element.hidden = !element.dataset.permissions.split(",").every((permission) => can(permission.trim()));
+    });
   };
 
   const loadCurrentProfile = async (session) => {
@@ -165,14 +168,15 @@
       safe(can("manage_creators"), () => api.rest("creator_profiles", { query: query({ select: "user_id,application_status,city,categories,portfolio_url,availability,internal_notes,created_at,updated_at", order: "updated_at.desc" }) })),
       safe(can("manage_brands"), () => api.rest("profiles", { query: query({ select: "id,email,full_name,phone,status,last_seen_at,created_at,updated_at", role: "eq.brand", order: "created_at.desc" }) })),
       safe(can("manage_brands"), () => api.rest("brand_profiles", { query: query({ select: "user_id,company_name,industry,website_url,assigned_owner,internal_notes,created_at,updated_at", order: "updated_at.desc" }) })),
-      safe(can("manage_campaigns"), () => api.rest("campaigns", { query: query({ select: "id,title,brand_id,owner_id,status,objective,deliverables_count,next_deadline,brief_url,drive_folder_url,created_at,updated_at", order: "updated_at.desc" }) })),
-      safe(can("manage_content"), () => api.rest("content_submissions", { query: query({ select: "id,campaign_id,creator_id,version,status,review_due_at,updated_at", order: "updated_at.desc" }) })),
+      safe(can("manage_campaigns"), () => api.rest("campaigns", { query: query({ select: "id,title,brand_id,owner_id,status,objective,deliverables_count,next_deadline,brief_url,drive_folder_url,archived_at,archived_by,created_at,updated_at", order: "updated_at.desc" }) })),
+      safe(can("manage_campaigns"), () => api.rest("campaign_deletion_requests", { query: query({ select: "id,campaign_id,requested_by,reason,status,reviewed_by,reviewed_at,decision_note,created_at,updated_at", order: "created_at.desc" }) })),
+      safe(can("manage_content"), () => api.rest("content_submissions", { query: query({ select: "id,campaign_id,creator_id,version,status,file_path,drive_file_url,thumbnail_url,notes,review_due_at,reviewed_by,reviewed_at,updated_at", order: "updated_at.desc" }) })),
       safe(can("manage_support"), () => api.rest("support_requests", { query: query({ select: "id,requester_id,requester_name,requester_email,requester_phone,preferred_reply,subject,category,message,priority,status,assigned_to,source,created_at,updated_at", order: "created_at.desc" }) })),
       safe(can("manage_support"), () => api.rest("support_request_admin_notes", { query: query({ select: "request_id,internal_notes,updated_by,updated_at" }) })),
       safe(can("manage_careers"), () => api.rest("career_openings", { query: query({ select: "id,title,department,location,workplace_type,employment_type,summary,requirements,application_email,application_url,opens_on,closes_on,status,created_by,created_at,updated_at", order: "created_at.desc" }) })),
       safe(isSuperAdmin(), () => api.rest("activity_log", { query: query({ select: "id,actor_id,action,record_table,record_id,old_data,new_data,created_at", order: "created_at.desc", limit: "100" }) }))
     ]);
-    const [allUsers, allPermissions, roles, creatorApplications, brandRequests, subscriptions, creatorUsers, creatorDetails, brandUsers, brandDetails, campaigns, content, support, supportNotes, careers, activity] = results;
+    const [allUsers, allPermissions, roles, creatorApplications, brandRequests, subscriptions, creatorUsers, creatorDetails, brandUsers, brandDetails, campaigns, campaignDeletionRequests, content, support, supportNotes, careers, activity] = results;
     const permissionsById = Object.fromEntries(allPermissions.map((item) => [item.user_id, item]));
     state.users = allUsers.map((user) => ({ ...user, permissions: permissionsById[user.id] || {} }));
     state.roles = roles;
@@ -184,6 +188,7 @@
     state.creators = creatorUsers.map((user) => ({ ...user, ...(creatorsById[user.id] || { user_id: user.id, application_status: "new", city: "", categories: [] }) }));
     state.brands = brandUsers.map((user) => ({ ...user, ...(brandsById[user.id] || { user_id: user.id, company_name: "", industry: "" }) }));
     state.campaigns = campaigns;
+    state.campaignDeletionRequests = campaignDeletionRequests;
     state.content = content;
     state.support = support;
     state.supportNotes = supportNotes;
@@ -276,16 +281,31 @@
   };
   const renderCampaigns = () => {
     const body = document.querySelector('[data-admin-table="campaigns"]');
-    body.innerHTML = state.campaigns.length ? state.campaigns.map((item) => { const brand = state.brands.find((entry) => entry.id === item.brand_id); return `<tr data-search-row="campaigns" data-status="${item.status}"><td><b>${escapeHtml(item.title)}</b><small>${escapeHtml(brand?.company_name || brand?.full_name || "No brand assigned")}</small><small>${escapeHtml(item.objective || "No objective added")}</small></td><td><span class="admin-status status-${item.status}">${statusLabels(item.status)}</span></td><td>${item.deliverables_count}</td><td>${dateLabel(item.next_deadline)}</td><td>${dateLabel(item.updated_at)}</td><td><div class="admin-row-actions"><select class="admin-row-action" data-campaign-action="${item.id}" aria-label="Update ${escapeHtml(item.title)}"><option value="">Change stage</option>${selectOptions(["discovery","scope_confirmed","creator_matching","creator_approval","concepts","production","brand_review","revisions","final_approval","delivered","completed","cancelled"], "")}</select><button class="admin-table-button" type="button" data-admin-assign-creator="${item.id}">Assign creator</button></div></td></tr>`; }).join("") : emptyRow(6, "No campaigns yet. Create the first operational campaign record when ready.");
+    body.innerHTML = state.campaigns.length ? state.campaigns.map((item) => {
+      const brand = state.brands.find((entry) => entry.id === item.brand_id);
+      const deletion = state.campaignDeletionRequests.find((entry) => entry.campaign_id === item.id && entry.status === "pending");
+      const deletionControls = deletion
+        ? (isSuperAdmin() ? `<button class="admin-table-button" type="button" data-admin-review-campaign-deletion="${deletion.id}" data-decision="approved">Approve removal</button><button class="admin-table-button" type="button" data-admin-review-campaign-deletion="${deletion.id}" data-decision="rejected">Reject</button>` : `<span class="admin-status status-waitlisted">Removal pending</span>`)
+        : `<button class="admin-table-button" type="button" data-admin-request-campaign-deletion="${item.id}">Request removal</button>`;
+      return `<tr data-search-row="campaigns" data-status="${item.status}"><td><b>${escapeHtml(item.title)}</b><small>${escapeHtml(brand?.company_name || brand?.full_name || "No brand assigned")}</small><small>${escapeHtml(item.objective || "No objective added")}</small></td><td><span class="admin-status status-${item.status}">${statusLabels(item.status)}</span></td><td>${item.deliverables_count}</td><td>${dateLabel(item.next_deadline)}</td><td>${dateLabel(item.updated_at)}</td><td><div class="admin-row-actions"><select class="admin-row-action" data-campaign-action="${item.id}" aria-label="Update ${escapeHtml(item.title)}"><option value="">Change stage</option>${selectOptions(["discovery","scope_confirmed","creator_matching","creator_approval","concepts","production","brand_review","revisions","final_approval","delivered","completed","cancelled"], "")}</select><button class="admin-table-button" type="button" data-admin-assign-creator="${item.id}">Assign creator</button>${deletionControls}</div></td></tr>`;
+    }).join("") : emptyRow(6, "No campaigns yet. Create the first operational campaign record when ready.");
     const brandSelect = document.querySelector("[data-admin-campaign-brand-options]");
     if (brandSelect) brandSelect.innerHTML = `<option value="">Select a brand</option>${state.brands.map((brand) => `<option value="${brand.id}">${escapeHtml(brand.company_name || brand.full_name || brand.email)}</option>`).join("")}`;
     const creatorSelect = document.querySelector("[data-admin-campaign-creator-options]");
     if (creatorSelect) creatorSelect.innerHTML = `<option value="">Select a creator</option>${state.creators.filter((creator) => creator.status === "active").map((creator) => `<option value="${creator.id}">${escapeHtml(creator.full_name || creator.email)}</option>`).join("")}`;
   };
+
   const renderContent = () => {
     const body = document.querySelector('[data-admin-table="content"]');
-    body.innerHTML = state.content.length ? state.content.map((item) => `<tr data-search-row="content" data-status="${item.status}"><td><b>${escapeHtml(item.id.slice(0, 8))}</b><small>Creator ${escapeHtml(item.creator_id.slice(0, 8))}</small></td><td>${escapeHtml(item.campaign_id.slice(0, 8))}</td><td>V${item.version}</td><td><span class="admin-status status-${item.status}">${statusLabels(item.status)}</span></td><td>${dateLabel(item.review_due_at)}</td><td><select class="admin-row-action" data-content-action="${item.id}"><option value="">Change status</option>${selectOptions(["internal_review","revision_requested","ready_for_brand","brand_reviewing","brand_revision_requested","approved","delivered","archived"], "")}</select></td></tr>`).join("") : emptyRow(6, "No content submissions yet.");
+    body.innerHTML = state.content.length ? state.content.map((item) => {
+      const creator = state.creators.find((entry) => entry.id === item.creator_id);
+      const campaign = state.campaigns.find((entry) => entry.id === item.campaign_id);
+      let drive = "";
+      try { if (item.drive_file_url && ["http:","https:"].includes(new URL(item.drive_file_url).protocol)) drive = item.drive_file_url; } catch {}
+      return `<tr data-search-row="content" data-status="${item.status}"><td><b>${escapeHtml(creator?.full_name || creator?.email || item.id.slice(0, 8))}</b><small>${drive ? `<a href="${escapeHtml(drive)}" target="_blank" rel="noopener noreferrer">Open raw video in Google Drive</a>` : "Drive link not added"}</small></td><td>${escapeHtml(campaign?.title || item.campaign_id.slice(0, 8))}</td><td>V${item.version}</td><td><span class="admin-status status-${item.status}">${statusLabels(item.status)}</span></td><td>${dateLabel(item.review_due_at)}</td><td><select class="admin-row-action" data-content-action="${item.id}"><option value="">Change status</option>${selectOptions(["internal_review","revision_requested","ready_for_brand","brand_reviewing","brand_revision_requested","approved","delivered","archived"], "")}</select></td></tr>`;
+    }).join("") : emptyRow(6, "No content submissions yet. Raw videos stay in Google Drive; Snappi stores only links and review status.");
   };
+
   const renderSupport = () => {
     const body = document.querySelector('[data-admin-table="support"]');
     body.innerHTML = state.support.length ? state.support.map((item) => `<tr data-search-row="support" data-status="${item.status}" data-priority="${item.priority}" data-category="${item.category}"><td><b>${escapeHtml(item.subject)}</b><small>${escapeHtml(item.requester_name || item.requester_email || item.requester_id?.slice(0, 8) || item.id.slice(0, 8))}</small><small>${escapeHtml(item.requester_email || "Authenticated workspace request")}</small></td><td>${escapeHtml(statusLabels(item.category))}</td><td><span class="admin-status status-${item.priority}">${statusLabels(item.priority)}</span></td><td><span class="admin-status status-${item.status}">${statusLabels(item.status)}</span></td><td>${dateLabel(item.created_at)}</td><td><button class="admin-table-button" type="button" data-support-detail="${item.id}">View Details</button></td></tr>`).join("") : emptyRow(6, "No support requests yet.");
@@ -411,6 +431,14 @@
   const updateRecord = async (table, idField, id, body, success) => {
     try { await api.rest(table, { query: query({ [idField]: `eq.${id}` }), method: "PATCH", body }); toast(success); await fetchAll(); }
     catch (error) { toast(error.message, true); }
+  };
+  const updateCreatorApplicationStatus = async (applicationId, status) => {
+    try {
+      const result = await api.invoke("admin-update-creator-application", { applicationId, status });
+      if (!result.success) throw new Error(result.message || "Creator application could not be updated.");
+      toast(result.warning || "Creator status updated and email sent.", Boolean(result.warning));
+      await fetchAll();
+    } catch (error) { toast(error.message, true); }
   };
 
   const detailItem = (label, value, link = false) => {
@@ -567,6 +595,31 @@
       form.elements.campaignId.value = assignCreator.dataset.adminAssignCreator;
       document.querySelector('[data-admin-dialog="campaign-creator"]').showModal();
     }
+    const addDirectoryUser = event.target.closest("[data-admin-add-directory-user]");
+    if (addDirectoryUser) {
+      const form = document.querySelector("[data-admin-user-form]");
+      form.reset();
+      form.elements.role.value = addDirectoryUser.dataset.adminAddDirectoryUser;
+      document.querySelector('[data-admin-dialog="user"]').showModal();
+    }
+    const requestDeletion = event.target.closest("[data-admin-request-campaign-deletion]");
+    if (requestDeletion) {
+      const campaign = state.campaigns.find((item) => item.id === requestDeletion.dataset.adminRequestCampaignDeletion);
+      const reason = window.prompt(`Why should “${campaign?.title || "this campaign"}” be removed? The Super Admin will review this request.`);
+      if (reason === null) return;
+      if (reason.trim().length < 5) return toast("Enter a clear deletion reason of at least 5 characters.", true);
+      api.rest("campaign_deletion_requests", { method: "POST", body: { campaign_id: requestDeletion.dataset.adminRequestCampaignDeletion, requested_by: state.profile.id, reason: reason.trim(), status: "pending" } })
+        .then(async () => { toast("Campaign removal sent to the Super Admin for approval."); await fetchAll(); })
+        .catch((error) => toast(error.message, true));
+    }
+    const reviewDeletion = event.target.closest("[data-admin-review-campaign-deletion]");
+    if (reviewDeletion) {
+      const decision = reviewDeletion.dataset.decision;
+      const note = window.prompt(decision === "approved" ? "Optional approval note:" : "Why is this request being rejected?") ?? "";
+      api.rpc("review_campaign_deletion_request", { request_id: reviewDeletion.dataset.adminReviewCampaignDeletion, decision, note })
+        .then(async () => { toast(decision === "approved" ? "Campaign archived. It can be retained for recovery before permanent removal." : "Campaign removal rejected."); await fetchAll(); })
+        .catch((error) => toast(error.message, true));
+    }
     if (event.target.closest("[data-request-create-account]")) {
       const detailForm = document.querySelector("[data-admin-request-detail-form]");
       const type = detailForm.elements.recordType.value;
@@ -599,7 +652,7 @@
   document.addEventListener("change", (event) => {
     const target = event.target;
     if (!target.value) return;
-    if (target.matches("[data-creator-application-action]")) updateRecord("creator_applications", "id", target.dataset.creatorApplicationAction, { status: target.value }, "Creator application updated.");
+    if (target.matches("[data-creator-application-action]")) updateCreatorApplicationStatus(target.dataset.creatorApplicationAction, target.value);
     if (target.matches("[data-brand-request-action]")) updateRecord("brand_requests", "id", target.dataset.brandRequestAction, { status: target.value }, "Brand request updated.");
     if (target.matches("[data-creator-action]")) updateRecord("creator_profiles", "user_id", target.dataset.creatorAction, { application_status: target.value }, "Creator application updated.");
     if (target.matches("[data-brand-action]")) api.rpc("admin_set_account_status", { target_user_id: target.dataset.brandAction, next_status: target.value }).then(async () => { toast("Brand account updated."); await fetchAll(); }).catch((error) => toast(error.message, true));
@@ -691,7 +744,8 @@
     const message = form.querySelector("[data-request-detail-status-message]");
     message.textContent = "Saving review…";
     try {
-      const body = { status: form.elements.status.value, internal_notes: form.elements.internalNotes.value.trim() || null };
+      const nextStatus = form.elements.status.value;
+      const body = { internal_notes: form.elements.internalNotes.value.trim() || null };
       if (type === "creator") {
         const list = (name) => String(form.elements[name]?.value || "").split(/[\n,]+/).map((item) => item.trim()).filter(Boolean);
         Object.assign(body, {
@@ -708,7 +762,13 @@
           consent: form.elements.creatorConsent.checked
         });
       }
+      if (!type.includes("creator")) body.status = nextStatus;
       await api.rest(table, { query: query({ id: `eq.${form.elements.recordId.value}` }), method: "PATCH", body });
+      if (type === "creator") {
+        const result = await api.invoke("admin-update-creator-application", { applicationId: form.elements.recordId.value, status: nextStatus });
+        if (!result.success) throw new Error(result.message || "Creator status could not be updated.");
+        if (result.warning) toast(result.warning, true);
+      }
       document.querySelector('[data-admin-dialog="request-detail"]').close();
       toast("Review saved.");
       await fetchAll();

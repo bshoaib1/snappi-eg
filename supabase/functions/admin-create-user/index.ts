@@ -1,6 +1,7 @@
 // SNAPPI ADMIN CREATE USER EDGE FUNCTION
 // Deploy with JWT verification enabled. Secret credentials remain in Supabase.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.117.2";
+import { emailLayout, sendEmail } from "../_shared/email.ts";
 
 const allowedOrigins = new Set(["https://snappi-eg.com", "https://www.snappi-eg.com", "http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:8080", "http://127.0.0.1:8081", "http://127.0.0.1:8082", "http://127.0.0.1:3000", "http://localhost:8080", "http://localhost:8081", "http://localhost:8082", "http://localhost:3000"]);
 const corsHeaders = (request: Request) => ({
@@ -48,6 +49,14 @@ Deno.serve(async (request) => {
       const { data: allowed } = await callerClient.rpc("has_admin_permission", { permission_name: "manage_brands" });
       if (!callerIsSuperAdmin && !allowed) throw new Error("Brand management permission is required.");
     }
+    if (role === "creator" && !sourceType) {
+      const { data: allowed } = await callerClient.rpc("has_admin_permission", { permission_name: "manage_creators" });
+      if (!callerIsSuperAdmin && !allowed) throw new Error("Creator management permission is required.");
+    }
+    if (role === "brand" && !sourceType) {
+      const { data: allowed } = await callerClient.rpc("has_admin_permission", { permission_name: "manage_brands" });
+      if (!callerIsSuperAdmin && !allowed) throw new Error("Brand management permission is required.");
+    }
     let accessRole: Record<string, boolean | string> | null = null;
     if (role === "operations_admin") {
       if (!workspaceRoleId) throw new Error("Select an Administration role.");
@@ -55,11 +64,15 @@ Deno.serve(async (request) => {
       if (roleError || !data) throw new Error("The selected Administration role was not found.");
       accessRole = data;
     }
-    const { data: created, error: createError } = await adminClient.auth.admin.inviteUserByEmail(email, {
-      redirectTo: "https://www.snappi-eg.com/index.html#login",
-      data: { full_name: fullName, phone, invited_role: role }
+    const { data: created, error: createError } = await adminClient.auth.admin.generateLink({
+      type: "invite",
+      email,
+      options: {
+        redirectTo: "https://snappi-eg.com/index.html#login",
+        data: { full_name: fullName, phone, invited_role: role, must_change_password: true }
+      }
     });
-    if (createError || !created.user) throw createError || new Error("User creation failed.");
+    if (createError || !created.user || !created.properties?.action_link) throw createError || new Error("User invitation could not be created.");
 
     const userId = created.user.id;
     try {
@@ -115,6 +128,25 @@ Deno.serve(async (request) => {
     } catch (setupError) {
       await adminClient.auth.admin.deleteUser(userId);
       throw setupError;
+    }
+
+    try {
+      await sendEmail({
+        to: email,
+        subject: "Your secure Snappi workspace invitation",
+        html: emailLayout({
+          eyebrow: "Workspace invitation",
+          heading: "Your Snappi access is ready.",
+          intro: `Hello ${fullName}. Use this secure invitation to create your private password and enter your ${role === "brand" ? "brand" : role === "creator" ? "creator" : "administrator"} workspace.`,
+          rows: [["Account type", role.replaceAll("_", " ")]],
+          action: { label: "Accept Secure Invitation", url: created.properties.action_link }
+        }),
+        text: `Hello ${fullName}. Accept your secure Snappi invitation: ${created.properties.action_link}`,
+        idempotencyKey: `workspace-invite-${userId}`
+      });
+    } catch (emailError) {
+      await adminClient.auth.admin.deleteUser(userId);
+      throw emailError;
     }
 
     return new Response(JSON.stringify({ success: true, userId }), { status: 200, headers: { ...corsHeaders(request), "Content-Type": "application/json" } });

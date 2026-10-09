@@ -115,7 +115,7 @@
     stopInactivityTimeout,
     getSession,
     async requestPasswordReset(email, redirectTo) {
-      const response = await fetch(`${config.url}/auth/v1/recover`, { method: "POST", headers: authHeaders(), body: JSON.stringify({ email, redirect_to: redirectTo }) });
+      const response = await fetch(`${config.url}/functions/v1/public-password-recovery`, { method: "POST", headers: authHeaders(), body: JSON.stringify({ email, redirectTo }) });
       return parseResponse(response);
     },
     async updatePassword(accessToken, password) {
