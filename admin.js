@@ -17,6 +17,7 @@
   const statusLabels = (value = "") => value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
   const dateLabel = (value) => value ? new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(value)) : "—";
   const dateTimeLabel = (value) => value ? new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(value)) : "—";
+  const inputDate = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
   const escapeHtml = (value = "") => String(value).replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[char]));
   const query = (params) => new URLSearchParams(params).toString();
   const emptyRow = (columns, message) => `<tr><td colspan="${columns}"><p class="admin-empty">${escapeHtml(message)}</p></td></tr>`;
@@ -260,7 +261,7 @@
   };
   const renderBrandRequests = () => {
     const body = document.querySelector('[data-admin-table="brand-requests"]');
-    body.innerHTML = state.brandRequests.length ? state.brandRequests.map((item) => `<tr data-search-row="brand-requests" data-status="${item.status}" data-package="${escapeHtml(item.package_name.toLowerCase())}"><td><b>${escapeHtml(item.company_name)}</b><small>${escapeHtml(item.industry || "No industry")}</small><small>${escapeHtml(item.website_url || "No website")}</small></td><td><b>${escapeHtml(item.contact_name)}</b><small>${escapeHtml(item.work_email)} · ${escapeHtml(item.phone)}</small></td><td><span class="admin-status">${escapeHtml(item.package_name)}</span></td><td><span class="admin-status status-${item.status}">${statusLabels(item.status)}</span></td><td>${dateLabel(item.created_at)}</td><td><button class="admin-table-button" type="button" data-request-detail="brand" data-request-id="${item.id}">View Details</button></td></tr>`).join("") : emptyRow(6, "No brand requests yet.");
+    body.innerHTML = state.brandRequests.length ? state.brandRequests.map((item) => `<tr data-search-row="brand-requests" data-status="${item.status}" data-package="${escapeHtml(item.package_name.toLowerCase())}"><td><b>${escapeHtml(item.company_name)}</b><small>${escapeHtml(item.industry || "Business category not provided")}</small><small>${escapeHtml(item.website_url || "No website")}</small></td><td><b>${escapeHtml(item.contact_name)}</b><small>${escapeHtml(item.work_email)} · ${escapeHtml(item.phone)}</small></td><td><span class="admin-status">${escapeHtml(item.package_name)}</span></td><td><span class="admin-status status-${item.status}">${statusLabels(item.status)}</span></td><td>${dateLabel(item.created_at)}</td><td><button class="admin-table-button" type="button" data-request-detail="brand" data-request-id="${item.id}">View Details</button></td></tr>`).join("") : emptyRow(6, "No brand requests yet.");
   };
   const effectiveSubscriptionStatus = (item) => item.ends_on && new Date(`${item.ends_on}T23:59:59`) < new Date() && !["cancelled","expired"].includes(item.status) ? "expired" : item.status;
   const renderSubscriptions = () => {
@@ -462,7 +463,7 @@
     dialog.querySelector("[data-request-detail-kicker]").textContent = creator ? "📝 Creator application" : "📨 Brand request";
     dialog.querySelector("[data-request-detail-title]").textContent = creator ? record.full_name : record.company_name;
     const fields = [
-      ["Contact", record.contact_name], ["Email", record.work_email], ["Phone", record.phone], ["Industry", record.industry],
+      ["Contact", record.contact_name], ["Email", record.work_email], ["Phone", record.phone], ["Business category", record.industry],
       ["Website", record.website_url, true], ["Requested package", record.package_name], ["Campaign objective", record.campaign_objective],
       ["Preferred launch", dateLabel(record.preferred_launch_date)], ["Consent", record.consent ? "Yes" : "No"], ["Submitted", dateTimeLabel(record.created_at)], ["Updated", dateTimeLabel(record.updated_at)]
     ];
@@ -600,6 +601,9 @@
       const form = document.querySelector("[data-admin-user-form]");
       form.reset();
       form.elements.role.value = addDirectoryUser.dataset.adminAddDirectoryUser;
+      const subscriptionFields = form.querySelector("[data-admin-brand-subscription]");
+      subscriptionFields.hidden = true;
+      subscriptionFields.querySelectorAll("select,input").forEach((field) => { field.required = false; });
       document.querySelector('[data-admin-dialog="user"]').showModal();
     }
     const requestDeletion = event.target.closest("[data-admin-request-campaign-deletion]");
@@ -634,6 +638,17 @@
       userForm.elements.email.value = type === "creator" ? record.email : record.work_email;
       userForm.elements.phone.value = record.phone;
       userForm.elements.role.value = type;
+      const subscriptionFields = userForm.querySelector("[data-admin-brand-subscription]");
+      subscriptionFields.hidden = type !== "brand";
+      subscriptionFields.querySelectorAll("select,input").forEach((field) => { field.required = type === "brand"; });
+      if (type === "brand") {
+        const start = new Date();
+        const end = new Date(start);
+        end.setDate(end.getDate() + 30);
+        userForm.elements.subscriptionPackage.value = ["Starter", "Growth", "Premium"].includes(record.package_name) ? record.package_name : "";
+        userForm.elements.subscriptionStartsOn.value = inputDate(start);
+        userForm.elements.subscriptionEndsOn.value = inputDate(end);
+      }
       document.querySelector('[data-admin-dialog="request-detail"]').close();
       document.querySelector('[data-admin-dialog="user"]').showModal();
     }
@@ -853,7 +868,7 @@
     const data = new FormData(form);
     status.textContent = "Creating secure access…";
     try {
-      const result = await api.invoke("admin-create-user", { fullName: data.get("fullName"), email: data.get("email"), phone: data.get("phone"), role: data.get("role"), workspaceRoleId: data.get("workspaceRoleId"), sourceType: data.get("sourceType"), sourceId: data.get("sourceId") });
+      const result = await api.invoke("admin-create-user", { fullName: data.get("fullName"), email: data.get("email"), phone: data.get("phone"), role: data.get("role"), workspaceRoleId: data.get("workspaceRoleId"), sourceType: data.get("sourceType"), sourceId: data.get("sourceId"), subscriptionPackage: data.get("subscriptionPackage"), subscriptionStartsOn: data.get("subscriptionStartsOn"), subscriptionEndsOn: data.get("subscriptionEndsOn") });
       if (!result.success) throw new Error(result.message || "User creation failed.");
       document.querySelector('[data-admin-dialog="user"]').close();
       toast("Secure invitation sent. The user will create their own password.");

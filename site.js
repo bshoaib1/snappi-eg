@@ -650,6 +650,7 @@
         workEmail: String(data.get("email") || "").trim(),
         mobile: String(data.get("phone") || "").trim(),
         companyName: String(data.get("brand") || "").trim(),
+        industry: String(data.get("industry") || "").trim(),
         packageName: String(data.get("package") || "").trim(),
         campaignObjective: String(data.get("goal") || "").trim(),
         source: `${document.title} — ${window.location.href}`,

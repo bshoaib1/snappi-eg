@@ -37,6 +37,9 @@ Deno.serve(async (request) => {
     const workspaceRoleId = String(input.workspaceRoleId || "");
     const sourceType = ["creator_application", "brand_request"].includes(input.sourceType) ? String(input.sourceType) : "";
     const sourceId = String(input.sourceId || "");
+    const subscriptionPackage = String(input.subscriptionPackage || "");
+    const subscriptionStartsOn = String(input.subscriptionStartsOn || "");
+    const subscriptionEndsOn = String(input.subscriptionEndsOn || "");
     const allowedRoles = ["operations_admin", "creator", "brand"];
     if (!email || !fullName || !phone || !allowedRoles.includes(role)) throw new Error("Name, email, phone number, and an allowed role are required.");
     const callerIsSuperAdmin = callerProfile.role === "super_admin";
@@ -56,6 +59,11 @@ Deno.serve(async (request) => {
     if (role === "brand" && !sourceType) {
       const { data: allowed } = await callerClient.rpc("has_admin_permission", { permission_name: "manage_brands" });
       if (!callerIsSuperAdmin && !allowed) throw new Error("Brand management permission is required.");
+    }
+    if (sourceType === "brand_request") {
+      if (!["Starter", "Growth", "Premium"].includes(subscriptionPackage)) throw new Error("Select the approved brand package.");
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(subscriptionStartsOn) || !/^\d{4}-\d{2}-\d{2}$/.test(subscriptionEndsOn)) throw new Error("Set the subscription start and expiry dates.");
+      if (subscriptionEndsOn < subscriptionStartsOn) throw new Error("The subscription expiry date cannot be before its start date.");
     }
     let accessRole: Record<string, boolean | string> | null = null;
     if (role === "operations_admin") {
@@ -121,6 +129,16 @@ Deno.serve(async (request) => {
       const { error: brandError } = await adminClient.from("brand_profiles").upsert(brandProfile);
       if (brandError) throw brandError;
       if (sourceType === "brand_request" && sourceId) {
+        const { error: subscriptionError } = await adminClient.from("brand_subscriptions").insert({
+          brand_user_id: userId,
+          package_name: subscriptionPackage,
+          status: "active",
+          starts_on: subscriptionStartsOn,
+          ends_on: subscriptionEndsOn,
+          confirmation_note: "Created automatically from an approved brand request.",
+          confirmed_by: user.id
+        });
+        if (subscriptionError) throw subscriptionError;
         const { error: sourceUpdateError } = await adminClient.from("brand_requests").update({ status: "converted", converted_user_id: userId }).eq("id", sourceId);
         if (sourceUpdateError) throw sourceUpdateError;
       }
@@ -138,7 +156,9 @@ Deno.serve(async (request) => {
           eyebrow: "Workspace invitation",
           heading: "Your Snappi access is ready.",
           intro: `Hello ${fullName}. Use this secure invitation to create your private password and enter your ${role === "brand" ? "brand" : role === "creator" ? "creator" : "administrator"} workspace.`,
-          rows: [["Account type", role.replaceAll("_", " ")]],
+          rows: (role === "brand" && sourceType === "brand_request"
+            ? [["Account type", "brand"], ["Package", subscriptionPackage], ["Access period", `${subscriptionStartsOn} to ${subscriptionEndsOn}`]]
+            : [["Account type", role.replaceAll("_", " ")]]) as Array<[string, string]>,
           action: { label: "Accept Secure Invitation", url: created.properties.action_link }
         }),
         text: `Hello ${fullName}. Accept your secure Snappi invitation: ${created.properties.action_link}`,
